@@ -1,0 +1,176 @@
+﻿@using Reto_sophos2.Models;
+@model List<Hero>
+@{
+    ViewData["Title"] = "Heroes";
+    
+}
+<style>
+    /* Estilos para la ventana emergente */
+    #editModal {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @Html.ActionLink("Guardians of the globe", "Living", "Home",null,new { @class="navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                @Html.ActionLink("Inicio", "Living", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item active">
+                @Html.ActionLink("Heroes", "Heroes", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Villanos", "Villains", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Info", "Info", "Home",null,new { @class="nav-link" })
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="nav flex-column">
+    @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link active" })
+    @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
+</div>
+
+
+
+    <div class="text-center">
+    <h2>   Consulta de datos de los heroes </h2>
+    <div class="input-group">
+
+        <form method="post" action="/Home/SearchHeroes">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" name="pattern" required>
+            <div class="input-group-append">
+                <select name="Dropdown1" id="Dropdown1">
+                    <option class="dropdown-item" value="nombre">Por nombre</option>
+                    <option class="dropdown-item" value="habilidad">Por habilidades</option>
+                    <option class="dropdown-item" value="relacion">Por relaciones</option>
+                    <option class="dropdown-item" value="edad">Ordenarlos por edad</option>
+                    <option class="dropdown-item" value="todo">todos</option>
+                
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
+
+
+@if (Model != null)
+{
+    @if (Model.Count > 0)
+    {
+        <div class="row">
+
+            @foreach (var item in Model)
+            {
+                var imgsrc = "";
+                try
+                {
+                    var base64 = Convert.ToBase64String(item.Img);
+                    imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
+
+                }
+                catch (Exception e)
+                {
+
+                }
+                <div class="col-sm-3">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src=@imgsrc alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">@item.HeroName</h5>
+                            <p class="card-text">
+                                Nombre real: @item.RealName <br>
+                                Poderes: @item.Powers <br>
+                                Debilidades: @item.Weaks <br>
+                                Edad: @item.Age <br>
+                                Telefono: @item.Cellphone <br>
+                                Relaciones: @item.Relations <br>
+                                Origen: @item.Origin <br>
+                            </p>
+                            <button class="btn btn-primary" onclick="showWindow()">Editar</button>
+
+                        </div>
+                    </div>
+                </div>
+
+            }
+        </div>
+
+    }
+    else
+    {
+        <h1>  Ninguna  coincidencia  </h1>
+    }
+}
+else
+{
+    <h1>  Ninguna  coincidencia  </h1>
+}
+
+<div id="editModal">
+   
+    <h2>Editar</h2>
+
+    <form id="editModalF" method="post" action="">
+        <input type="text" placeholder="Nombre de superheroe" maxlength="50">
+        <input type="text" placeholder="Poderes" maxlength="100">
+        <input type="text" placeholder="Debilidades" maxlength="100">
+        <input type="text" placeholder="Relaciones" maxlength="200">
+        <input type="text" placeholder="Telefono" maxlength="20">
+        <input type="text" placeholder="Origen" maxlength="100">
+
+        <button type="submit" class="btn btn-primary">Cambiar</button>
+    </form>
+
+    <button onclick="hideWindow()" type="button" class="btn-close btn-close-white" aria-label="Cerrar"> Cerrar </button>
+
+</div>
+
+
+<script>
+    function showWindow() {
+
+        document.getElementById('editModal').style.display = 'block';
+       //document.getElementById('editModalF').action = "" + valor;
+       
+    }
+
+    function hideWindow() {
+       
+        document.getElementById('editModal').style.display = 'none';
+      
+    }
+</script>

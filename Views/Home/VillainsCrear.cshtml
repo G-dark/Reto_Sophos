@@ -1,0 +1,63 @@
+﻿
+@*
+    For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
+*@
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    @Html.ActionLink("Guardians of the globe", "Living", "Home",null,new { @class="navbar-brand" })
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                @Html.ActionLink("Inicio", "Living", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Heroes", "Heroes", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item active">
+                @Html.ActionLink("Villanos", "Villains", "Home",null,new { @class="nav-link" })
+            </li>
+            <li class="nav-item">
+                @Html.ActionLink("Info", "Info", "Home",null,new { @class="nav-link" })
+            </li>
+        </ul>
+    </div>
+</nav>
+
+<div class="nav flex-column">
+    @Html.ActionLink("Buscar", "Villains", "Home",null,new { @class="nav-link"})
+    @Html.ActionLink("Crear", "VillainsCrear", "Home",null,new { @class="nav-link active"})
+</div>
+
+<div class="text-center">
+    <h2>   Consulta de datos de los villanos </h2>
+    <div class="input-group">
+
+        <form method="post" action="/Home/Villains">
+            <input type="text" class="form-control" aria-label="Text input with dropdown button" name="pattern" required>
+            <div class="input-group-append">
+                <select name="Dropdown1" id="Dropdown1">
+                    <option class="dropdown-item" value="nombre">Por nombre</option>
+                    <option class="dropdown-item" value="origen">Por origen</option>
+                    <option class="dropdown-item" value="debilidad">Por debilidad</option>
+                    <option class="dropdown-item" value="todo">todos</option>
+
+                </select>
+            </div>
+
+            <div class="input-group mb-3">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Buscar</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+</div>
