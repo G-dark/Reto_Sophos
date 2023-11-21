@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Reto_sophos2.DBContext;
 using Reto_sophos2.Models;
+using Newtonsoft.Json;
+using System.Drawing.Printing;
 
 namespace Reto_sophos2.Controllers
 {
@@ -83,21 +85,24 @@ namespace Reto_sophos2.Controllers
 
         // POST: api/Fights
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("Crear")]
+        [HttpPost]
         public async Task<ActionResult<Fight>> PostFight([FromBody] Fight fights)
         {
-            if (_context.Fights == null)
-            {
-                return Problem("Entity set 'AppDbContext.Fights'  is null.");
-            }
-            _context.Fights.Add(fights);
-            await _context.SaveChangesAsync();
+           
+                if (_context.Fights == null)
+                {
+                    return Problem("Entity set 'AppDbContext.Fights'  is null.");
+                }
+                _context.Fights.Add(fights);
+                await _context.SaveChangesAsync();
+
+         
 
             return CreatedAtAction("GetFight", new { id = fights.FightId }, fights);
         }
 
         // DELETE: api/Fights/5
-        [HttpDelete("Elimininar")]
+        [HttpDelete("Eliminar")]
         public async Task<IActionResult> DeleteFight([FromBody] Fight fights)
         {
             if (_context.Fights == null)

@@ -51,6 +51,7 @@
 
 <div class="nav flex-column">
     @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link active" })
+    @Html.ActionLink("Crear", "Heroes", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
@@ -144,13 +145,17 @@ else
    
     <h2>Editar</h2>
 
-    <form id="editModalF" method="post" action="">
-        <input type="text" placeholder="Nombre de superheroe" maxlength="50">
-        <input type="text" placeholder="Poderes" maxlength="100">
-        <input type="text" placeholder="Debilidades" maxlength="100">
-        <input type="text" placeholder="Relaciones" maxlength="200">
-        <input type="text" placeholder="Telefono" maxlength="20">
-        <input type="text" placeholder="Origen" maxlength="100">
+    <form id="editModalF" method="post" action="/heroee/" enctype="multipart/form-data">
+        <label for="imagen">Seleccionar imagen:</label>
+        <input type="file" name="imagen" id="imagen" accept="image/*">
+        <input type="text" name="heroname" placeholder="Nombre de superheroe" maxlength="50" required>
+        <input type="text" name="realname" placeholder="Nombre real" maxlength="100">
+        <input type="text" name="powers" placeholder="Poderes" maxlength="100">
+        <input type="text" name="weaks" placeholder="Debilidades" maxlength="100">
+        <input type="text" name="relations" placeholder="Relaciones" maxlength="200">
+        <input type="text" name="age" placeholder="edad" maxlength="4">
+        <input type="text" name="phone" placeholder="Telefono" maxlength="20">
+        <input type="text" name="origin" placeholder="Origen" maxlength="100">
 
         <button type="submit" class="btn btn-primary">Cambiar</button>
     </form>
@@ -174,3 +179,13 @@ else
       
     }
 </script>
+
+@if (ViewBag.respuesta != null)
+    @if (ViewBag.respuesta == true)
+    {
+        <h3>Creación exitosa</h3>
+    }
+    else
+    {
+        <h3>Creación fallida, revise los campos</h3>
+    }

@@ -83,7 +83,7 @@ namespace Reto_sophos2.Controllers
 
         // POST: api/Sponsors
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("Crear")]
+        [HttpPost]
         public async Task<ActionResult<Sponsor>> PostSponsor([FromBody]Sponsor sponsors)
         {
           if (_context.Sponsors == null)

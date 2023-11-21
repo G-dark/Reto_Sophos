@@ -1,5 +1,4 @@
-﻿@using Reto_sophos2.Models;
-@model List<Sponsor>
+﻿
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
@@ -35,31 +34,30 @@
 
 <div class="nav flex-column">
     @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link active" })
-    @Html.ActionLink("Crear", "Crear", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Crear", "Heroes", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
 </div>
 
 
-<div class="text-center">
-    <h2>   Sponsor de los superheroes </h2>
+<h2 class="text-center">Crear </h2>
+<div class="align-items-center">
     <div class="input-group">
 
-        <form method="post" action="/Home/SponsorsDetails">
-            <input type="text" class="form-control" aria-label="Text input with dropdown button" name="heroname" placeholder="Nombre del superheroe" required>
-           
+        <form method="post" action="/Home/CrearHSP">
+            
             <div class="input-group-append">
                 <select name="Dropdown1" id="Dropdown1">
-                    <option class="dropdown-item" value="high">Mayor sponsor</option>
-                    <option class="dropdown-item" value="todo">todos</option>
-
+                    <option class="dropdown-item" value="heroe">Heroe</option>
+                    <option class="dropdown-item" value="sponsorT">Sponsor</option>
+                    <option class="dropdown-item" value="pelea">Pelea</option>
                 </select>
             </div>
 
-            <div class="input-group mb-3">
+            <div class="input-group">
                 <div class="input-group-append">
-                    <button class="btn btn-primary" type="submit">Buscar</button>
+                    <button class="btn btn-primary" type="submit">Traer formulario</button>
                 </div>
             </div>
 
@@ -67,44 +65,3 @@
         </form>
     </div>
 </div>
-
-@if (Model != null)
-{
-    @if (Model.Count > 0)
-    {
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Fuente</th>
-                    <th scope="col">Monto</th>
-                    <th scope="col">Transacción</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-
-                        <td>@item.SponsorId</td>
-                        <td>@item.SourceOm</td>
-                        <td>@item.Amount</td>
-                        <td>@item.TransId</td>
-                    </tr>
-                }
-
-
-            </tbody>
-        </table>
-    }
-    else
-    {
-        <h2>No hay sponsors</h2>
-
-    }
-}
-else
-{
-    <h2>No hay sponsors</h2>
-
-}

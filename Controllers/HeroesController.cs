@@ -83,15 +83,22 @@ namespace Reto_sophos2.Controllers
 
         // POST: api/Heroes
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("Crear")]
+        [HttpPost]
         public async Task<ActionResult<Hero>> PostHero([FromBody]Hero hero)
         {
           if (_context.Heroes == null)
           {
               return Problem("Entity set 'AppDbContext.Heroes'  is null.");
           }
-            _context.Heroes.Add(hero);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Heroes.Add(hero);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex){ 
+            
+            }
+            
 
             return CreatedAtAction("GetHero", new { id = hero.HeroId }, hero);
         }

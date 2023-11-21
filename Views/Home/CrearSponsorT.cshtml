@@ -2,10 +2,12 @@
 @*
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
+
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     @Html.ActionLink("Guardians of the globe", "Living", "Home",null,new { @class="navbar-brand" })
@@ -17,10 +19,10 @@
             <li class="nav-item">
                 @Html.ActionLink("Inicio", "Living", "Home",null,new { @class="nav-link" })
             </li>
-            <li class="nav-item">
+            <li class="nav-item active">
                 @Html.ActionLink("Heroes", "Heroes", "Home",null,new { @class="nav-link" })
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 @Html.ActionLink("Villanos", "Villains", "Home",null,new { @class="nav-link" })
             </li>
             <li class="nav-item">
@@ -31,73 +33,60 @@
 </nav>
 
 <div class="nav flex-column">
-    @Html.ActionLink("Buscar", "Villains", "Home",null,new { @class="nav-link"})
-    @Html.ActionLink("Crear", "VillainsCrear", "Home",null,new { @class="nav-link active"})
+    @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link active" })
+    @Html.ActionLink("Crear", "Heroes", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
 </div>
 
-<div class="text-center">
-    <h2>   Crear </h2>
+
+<h2 class="text-center">   Crear </h2>
+<div class="align-items-center">
+    <div class="input-group">
+
+        <form method="post" action="/Home/CrearHSP">
+
+            <div class="input-group-append">
+                <select name="Dropdown1" id="Dropdown1">
+                    <option class="dropdown-item" value="heroe">Heroe</option>
+                    <option class="dropdown-item" value="sponsorT">Sponsor</option>
+                    <option class="dropdown-item" value="pelea">Pelea</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <div class="input-group-append">
+                    <button class="btn btn-primary" type="submit">Traer formulario</button>
+                </div>
+            </div>
+
+
+        </form>
+    </div>
 </div>
 
-
-<form method="post" action="/villainc/" enctype="multipart/form-data">
-
+<form method="post" action="/Home/CrearS">
+    
     <div class="mb-3">
-        <label for="imagen">Seleccionar imagen:</label>
-        <input type="file" name="imagen" id="imagen" accept="image/*">
-        <br>
+        <label for="" class="form-label">SponsorID</label>
+        <input type="text" class="form-control" name="sponsor" maxlength="4" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Nombre del Villano</label>
-        <input type="text" class="form-control" name="villainname" maxlength="50" required>
+        <label for="" class="form-label">Nombre del heroe</label>
+        <input type="text" class="form-control" name="heroname" maxlength="50" required>
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Nombre real</label>
-        <input type="text" class="form-control" name="realname" maxlength="100" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Poderes</label>
-        <input type="text" class="form-control" name="powers" maxlength="100" required>
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Debilidades</label>
-        <input type="text" class="form-control" name="weaks" maxlength="100" required>
+        <label for="" class="form-label">Monto</label>
+        <input type="text" class="form-control" name="amount" maxlength="8">
     </div>
 
     <div class="mb-3">
-        <label for="" class="form-label">Relaciones personales</label>
-        <input type="text" class="form-control" name="relations" maxlength="200" required>
+        <label for="" class="form-label">Fuente</label>
+        <input type="text" class="form-control" name="source" maxlength="100">
     </div>
-
-    <div class="mb-3">
-        <label for="" class="form-label">Edad</label>
-        <input type="text" class="form-control" name="age" maxlength="4" required>
-    </div>
-
-    <div class="mb-3">
-        <label for="" class="form-label">Telefono</label>
-        <input type="text" class="form-control" name="phone" maxlength="20" required>
-    </div>
-
-    <div class="mb-3">
-        <label for="" class="form-label">Origen</label>
-        <input type="text" class="form-control" name="origin" maxlength="100" required>
-    </div>
-
 
     <button type="submit" class="btn btn-primary">Crear</button>
 </form>
-
-@if (ViewBag.respuesta != null)
-
-@if (ViewBag.respuesta == true)
-{
-    <h3>Creación exitosa</h3>
-}
-else
-{
-
-    <h3>Creación fallida, revise los campos</h3>
-}

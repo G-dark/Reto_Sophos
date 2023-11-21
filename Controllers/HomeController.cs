@@ -7,6 +7,7 @@ using SixLabors.ImageSharp.PixelFormats;
 using System.IO;
 using Task = Reto_sophos2.Models.Task;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
+using System.Configuration;
 
 namespace Reto_sophos2.Controllers
 {
@@ -14,6 +15,8 @@ namespace Reto_sophos2.Controllers
     public class HomeController : Controller
     {
         private readonly IServicio_API servicioAPI;
+
+        private string usernameOn="admin";
         public HomeController(IServicio_API servicioAPI) { 
 
             this.servicioAPI = servicioAPI;
@@ -31,8 +34,6 @@ namespace Reto_sophos2.Controllers
             return View("FirstView");
         }
 
-
-        //[Route("Heros_view")]
         public IActionResult Heroes()
         {
             return View("Heroes");
@@ -97,6 +98,7 @@ namespace Reto_sophos2.Controllers
         {
             string? heroName = HttpContext.Request.Form["heroname"];
             List<Task> tasks = await servicioAPI.GetTasks(heroName);
+            ViewBag.respuesta = null;
             return View(tasks);
         }
         public IActionResult Sponsors()
@@ -178,7 +180,6 @@ namespace Reto_sophos2.Controllers
             return View();
         }
 
-        //[Route("Home/PanelView")]
         [HttpPost]
         public async Task<IActionResult> PanelView()
         {
@@ -216,14 +217,13 @@ namespace Reto_sophos2.Controllers
             List<Hero> heroesR = new List<Hero>();
             string? pattern = HttpContext.Request.Form["pattern"];
             string? opcion = HttpContext.Request.Form["Dropdown1"];
+            ViewBag.respuesta = null;
 
-            if(pattern != null && opcion != null)
+            if (pattern != null && opcion != null)
             switch (opcion) {
 
                 case "nombre":
                     heroesR = await servicioAPI.GetHeroesByName(pattern);
-
-                    // usar un viewbag mejor? 
                     return View(heroesR);
 
                 case "habilidad":
@@ -248,8 +248,281 @@ namespace Reto_sophos2.Controllers
 
         }
 
-        
+        public IActionResult Crear() {
 
+            return View("Crear");
+        }
+
+        [HttpPost]
+        public IActionResult CrearHSP()
+        {
+            
+            string? opcion = HttpContext.Request.Form["Dropdown1"];
+
+            if (opcion != null)
+            {
+
+                switch (opcion)
+                {
+
+                    case "heroe":
+                        
+                        return View("CrearHeroe");
+
+                    case "sponsorT":
+
+                        return View("CrearSponsorT");
+
+                    case "pelea":
+
+                        return View("CrearPelea");
+
+
+                }
+            }
+            else {
+
+                return View("Crear");
+            }
+
+            return View("Crear");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearP()
+        {
+            string? result = HttpContext.Request.Form["result"];
+            string? heroName = HttpContext.Request.Form["heroname"];
+            string? villainName = HttpContext.Request.Form["villainname"];
+            string? comments = HttpContext.Request.Form["comments"];
+            int resultint;
+
+            var resultado = false;
+            if (result != null && heroName != null && villainName != null && comments != null)
+            {
+               resultint = int.Parse(result);
+
+               resultado = await servicioAPI.CreateFight(resultint, heroName, villainName, comments);
+
+            }
+            ViewBag.respuesta = resultado;
+            return View();
+
+
+        }
+
+        [HttpPost("/heroec/")]
+        
+        public async Task<IActionResult> CrearH(IFormFile imagen) {
+
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["heroname"];
+            string? realName = HttpContext.Request.Form["realname"];
+            string? powers = HttpContext.Request.Form["powers"];
+            string? weaks = HttpContext.Request.Form["weaks"];
+            string? relations = HttpContext.Request.Form["relations"];
+            string? age  = HttpContext.Request.Form["age"];
+            string? cell = HttpContext.Request.Form["phone"];
+            string? origin = HttpContext.Request.Form["origin"];
+
+            if (imagen != null && heroName != null && realName != null && 
+                powers != null && weaks != null && relations != null
+                && age != null && cell != null && origin != null)
+            {
+                response = await servicioAPI.CreateHeroe(imagen, heroName, realName, powers,
+                weaks, relations, origin, int.Parse(age), cell);
+                ViewBag.respuesta = response;
+                return View("CrearP");
+            }
+            
+
+            return View("CrearP");
+        
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearS()
+        {
+
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["heroname"];
+            string? sponsorID = HttpContext.Request.Form["sponsor"];
+            string? amount = HttpContext.Request.Form["amount"];
+            string? source = HttpContext.Request.Form["source"];
+
+            
+
+            if ( heroName != null && sponsorID != null && amount != null && source != null)
+            {
+                var sponsorint = int.Parse(sponsorID);
+                var decamount = Decimal.Parse(amount);
+                try
+                {
+                    response = await servicioAPI.CreateSponsorT(heroName, sponsorint, decamount, source);
+                    ViewBag.respuesta = response;
+                    return View("CrearP");
+
+                } catch (Exception ex)
+                {
+                    response = false;
+                }
+               
+            }
+
+
+            return View("CrearP");
+
+        }
+
+        public IActionResult VillainsCrear()
+        {
+            ViewBag.respuesta = null;
+            return View();
+        }
+
+        [HttpPost("/villainc/")]
+        public async Task<IActionResult> CrearV(IFormFile imagen) {
+
+            var response = false;
+
+            string? villainName = HttpContext.Request.Form["villainname"];
+            string? realName = HttpContext.Request.Form["realname"];
+            string? powers = HttpContext.Request.Form["powers"];
+            string? weaks = HttpContext.Request.Form["weaks"];
+            string? relations = HttpContext.Request.Form["relations"];
+            string? age = HttpContext.Request.Form["age"];
+            string? cell = HttpContext.Request.Form["phone"];
+            string? origin = HttpContext.Request.Form["origin"];
+
+            if (imagen != null && villainName != null && realName != null &&
+                powers != null && weaks != null && relations != null
+                && age != null && cell != null && origin != null)
+            {
+                response = await servicioAPI.CreateVillain(imagen, villainName, realName, powers,
+                weaks, relations, origin, int.Parse(age), cell);
+                ViewBag.respuesta = response;
+                return View("VillainsCrear");
+            }
+
+
+            return View("VillainsCrear");
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CrearT() {
+
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["heroname"];
+            string? fechaS = HttpContext.Request.Form["fechas"];
+            string? fechaF = HttpContext.Request.Form["fechaf"];
+            string? tname = HttpContext.Request.Form["taskname"];
+
+
+            if (heroName != null && fechaS != null && fechaF != null && tname != null)
+            {
+                var fechasSdate = DateTime.Parse(fechaS);
+                var fechasFdate = DateTime.Parse(fechaF);
+                
+                    response = await servicioAPI.CreateTask(heroName, tname, fechasSdate, fechasFdate);
+                    ViewBag.respuesta = response;
+                    return View("AgendaWeek");
+            }
+
+
+            return View("AgendaWeek");
+
+        }
+
+        public async Task<IActionResult> EditT() {
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["heroname2"];
+            string? fechaS = HttpContext.Request.Form["fechas2"];
+            string? fechaF = HttpContext.Request.Form["fechaf2"];
+            string? tname = HttpContext.Request.Form["taskname2"];
+            string? status = HttpContext.Request.Form["status"];
+            string? taskid_ = HttpContext.Request.Form["taskid"];
+
+            int taskid = int.Parse(taskid_);
+            int? intstatus = status.Equals("") ? null : int.Parse(status);
+
+            if (heroName != null && fechaS != null && fechaF != null && tname != null )
+            {
+                var fechasSdate = fechaS.Equals("") ? DateTime.MinValue: DateTime.Parse(fechaS);
+                var fechasFdate = fechaF.Equals("") ? DateTime.MinValue: DateTime.Parse(fechaF);
+                
+                response = await servicioAPI.EditTask(heroName, tname, fechasSdate, fechasFdate, taskid, intstatus, usernameOn);
+                ViewBag.respuesta = response;
+                return View("AgendaWeek");
+
+
+
+            }
+
+
+            return View("AgendaWeek");
+            
+        }
+
+        [HttpPost("/heroee/")]
+        public async Task<IActionResult> EditH(IFormFile imagen) {
+
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["heroname"];
+            string? realName = HttpContext.Request.Form["realname"];
+            string? powers = HttpContext.Request.Form["powers"];
+            string? weaks = HttpContext.Request.Form["weaks"];
+            string? relations = HttpContext.Request.Form["relations"];
+            string? age = HttpContext.Request.Form["age"];
+            string? cell = HttpContext.Request.Form["phone"];
+            string? origin = HttpContext.Request.Form["origin"];
+
+            int ageint = age.Equals("") ? -1 : int.Parse(age);
+
+            if ( heroName != null )
+            {
+                response = await servicioAPI.EditHeroe(imagen, heroName, realName, powers,
+                weaks, relations, origin, ageint, cell);
+                ViewBag.respuesta = response;
+                return View("SearchHeroes");
+            }
+
+            return View("SearchHeroes");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditV(IFormFile imagen)
+        {
+
+            var response = false;
+
+            string? heroName = HttpContext.Request.Form["villainname"];
+            string? realName = HttpContext.Request.Form["realname"];
+            string? powers = HttpContext.Request.Form["powers"];
+            string? weaks = HttpContext.Request.Form["weaks"];
+            string? relations = HttpContext.Request.Form["relations"];
+            string? age = HttpContext.Request.Form["age"];
+            string? cell = HttpContext.Request.Form["phone"];
+            string? origin = HttpContext.Request.Form["origin"];
+
+            int ageint = age.Equals("") ? -1 : int.Parse(age);
+
+            if (heroName != null)
+            {
+                response = await servicioAPI.EditVillain(imagen, heroName, realName, powers,
+                weaks, relations, origin, ageint, cell);
+                ViewBag.respuesta = response;
+                return View("SearchVillains");
+            }
+
+            return View("SearchVillains");
+        }
 
     }
 

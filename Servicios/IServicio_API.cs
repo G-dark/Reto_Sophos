@@ -9,9 +9,22 @@ namespace Reto_sophos2.Servicios
 
         public int GetNumberofFacings();
         public int[] GetNumberOfWs();
+        public Task<bool> CreateFight(int result, 
+            string heroName, string villainName, string comments);
 
+        public Task<bool> CreateSponsorT(string heroName, int sponsor, Decimal amount, string source);
+        public Task<bool> CreateHeroe(IFormFile img, string heroName, string realName, string powers,
+            string weaks, string relations, string origin, int age, string cell);
+        public Task<bool> EditHeroe(IFormFile img, string heroName, string realName, string powers,
+            string weaks, string relations, string origin, int age, string cell);
+        public Task<bool> CreateVillain(IFormFile img, string villainName, string realName, string powers,
+          string weaks, string relations, string origin, int age, string cell);
+        public Task<bool> EditVillain(IFormFile img, string villainName, string realName, string powers,
+          string weaks, string relations, string origin, int age, string cell);
+        public Task<bool> CreateTask(string heroName, string tname, DateTime fechasSdate, DateTime fechasFdate);
+        public Task<bool> EditTask(string heroName, string tname, DateTime fechasSdate, DateTime fechasFdate, int taskID, int? status, string usernameOn);
         public Decimal GetTotalAmount();
-		Task<List<Hero>> GetTopHeroes();
+        Task<List<Hero>> GetTopHeroes();
 		Task<List<Hero>> GetHeroesByabilities(string power);
         Task<List<Hero>> GetHeroesByRelationships(string relations);
 

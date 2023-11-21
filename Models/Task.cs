@@ -44,5 +44,5 @@ public partial class Task
 
     [ForeignKey("HeroId")]
     [InverseProperty("Tasks")]
-    public virtual Hero Hero { get; set; } = null!;
+    public virtual Hero? Hero { get; set; } = null!;
 }

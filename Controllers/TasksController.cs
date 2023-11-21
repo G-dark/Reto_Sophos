@@ -84,30 +84,38 @@ namespace Reto_sophos2.Controllers
 
         // POST: api/Tasks
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("Crear")]
+        [HttpPost]
         public async Task<ActionResult<Task>> PostTask([FromBody]Task tasks)
         {
-          if (_context.Tasks == null)
-          {
-              return Problem("Entity set 'AppDbContext.Tasks'  is null.");
-          }
-            _context.Tasks.Add(tasks);
             try
             {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (TaskExists(tasks.TaskId))
+                if (_context.Tasks == null)
                 {
-                    return Conflict();
+                    return Problem("Entity set 'AppDbContext.Tasks'  is null.");
                 }
-                else
+                _context.Tasks.Add(tasks);
+                try
                 {
-                    throw;
+                    await _context.SaveChangesAsync();
                 }
-            }
+                catch (DbUpdateException)
+                {
+                    if (TaskExists(tasks.TaskId))
+                    {
+                        return Conflict();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
 
+            }
+            catch (Exception ex) { 
+            
+            }
+                
+            
             return CreatedAtAction("GetTask", new { id = tasks.TaskId }, tasks);
         }
 

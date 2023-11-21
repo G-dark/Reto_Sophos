@@ -34,11 +34,13 @@
 </nav>
 
 <div class="nav flex-column">
-    @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link" })
-    @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link active" })
+    @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link active" })
+    @Html.ActionLink("Crear", "Crear", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
 </div>
+
 
 <div class="text-center">
     <h2>   Peleas de los superheroes </h2>
