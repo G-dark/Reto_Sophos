@@ -11,5 +11,5 @@ This project was develoved for the course Sophos a VIP course of universidad del
 ### Data Source=ELI\\SQLEXPRESS;Initial Catalog=MiBaseDeDatos; User ID=sa;Password=1234567; Encrypt=False"
    You have to change this in two places in the appsettings.json file and appdbcontext class
 # Execution 
-1. Run the app in the Reto_sophos2_ profile
+1. Run the app in the Reto_sophos2_ or Reto_sophos2 profile, in those profiles the app was tested.  
    
