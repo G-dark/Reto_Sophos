@@ -95,8 +95,8 @@ namespace Reto_sophos2.Controllers
                 _context.Heroes.Add(hero);
                 await _context.SaveChangesAsync();
             }
-            catch (Exception ex){ 
-            
+            catch (Exception){
+                return Problem("Entity set 'AppDbContext.Heroes'  can't be updated.");
             }
             
 

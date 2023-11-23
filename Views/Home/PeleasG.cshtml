@@ -39,6 +39,7 @@
 
 <div class="nav flex-column">
     @Html.ActionLink("Buscar", "Heroes", "Home",null,new { @class="nav-link" })
+    @Html.ActionLink("Crear", "Crear", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Agenda", "Agenda", "Home",null,new { @class="nav-link active" })
     @Html.ActionLink("Sponsors", "Sponsors", "Home",null,new { @class="nav-link" })
     @Html.ActionLink("Peleas", "Peleas", "Home",null,new { @class="nav-link" })
@@ -71,6 +72,7 @@
 
     </form>
 </div>
+
 
 @if (Model != null)
 {
@@ -122,42 +124,54 @@
 }
 else
 {
-    if (ViewBag.cantbat > 0)
+    if(ViewBag != null)
     {
-
-        var imgsrc = "";
-        try
-        {
-            var base64 = Convert.ToBase64String(ViewBag.img);
-            imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
-
-        }
-        catch (Exception e)
+        if (ViewBag.cantbat > 0)
         {
 
-        }
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=@imgsrc alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">@ViewBag.Nombre</h5>
-                <p class="card-text">
-                    Nombre real: @ViewBag.RN <br>
-                    Poderes: @ViewBag.Poderes <br>
-                    Debilidades:  @ViewBag.Debilidades <br>
-                    Edad: @ViewBag.Age <br>
-                    Cantidad de enfrentamientos: @ViewBag.cantbat <br>
-                </p>
+            var imgsrc = "";
+            try
+            {
+                var base64 = Convert.ToBase64String(ViewBag.img);
+                imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
 
+            }
+            catch (Exception e)
+            {
+
+            }
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src=@imgsrc alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title">@ViewBag.Nombre</h5>
+                    <p class="card-text">
+                        Nombre real: @ViewBag.RN <br>
+                        Poderes: @ViewBag.Poderes <br>
+                        Debilidades:  @ViewBag.Debilidades <br>
+                        Edad: @ViewBag.Age <br>
+                        Cantidad de enfrentamientos: @ViewBag.cantbat <br>
+                    </p>
+
+                </div>
             </div>
-        </div>
+        }
+        else
+
+        {
+
+            <h3>Sin resultados</h3>
+
+        }
+    
     }
     else
-    
+
     {
-        
+
         <h3>Sin resultados</h3>
-    
+
     }
+    
 
 
 }

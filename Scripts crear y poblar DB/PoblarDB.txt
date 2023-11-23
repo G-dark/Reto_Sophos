@@ -1,0 +1,300 @@
+--Mark Grayson 1
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\mark.jpg', SINGLE_BLOB) AS Imagen), 'invicible','Mark Grayson', 
+'fisiología viltrumita/humana,Fuerza sobrehumana,Velocidad sobrehumana,Resistencia sobrehumana,Vuelo','Oidos sensibles, Mal temperamento','
+Argall (paternal grandfather, deceased)
+Oliver Grayson (maternal grandfather, deceased)', 20,'1-212-555-1234','Mark Grayson nació de Nolan Grayson, un hombre viltrumita, y Deborah Grayson, una mujer humana.');
+
+--Amanda 2
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\monster.jpg', SINGLE_BLOB) AS Imagen), 'Monster girl','Amanda', 
+'Transformación,Curación acelerada,Fuerza sobrehumana,Densidad de tejido sobrehumano','Envejecimiento invertido','Monax(hijo)',
+29,'1-212-441-1133','Ella se acostó con un hombre, la abuela de este no aprobaba la relación y la maldijo');
+
+--Aquarus 3
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\aquarus.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Aquarus', 
+'Amphibious','Fuego','Aquaria (Esposa)',
+29,'1-100-210-1999','Nació en Atlantis, reino el cual gobierna');
+
+--Best Tiger 4
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\besttiger.jpg', SINGLE_BLOB) AS Imagen), 'No revelado','Best Tiger', 
+'Agilidad sobrehumana,Sentidos aumentados, resistencia a la telepatía','Vulnerabilidad','Ninguno',
+29,'1-100-120-2300','No se sabe mucho además de que su lugar de nacimiento es china');
+
+--Brit 5
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\brit.jpg', SINGLE_BLOB) AS Imagen), 'Brittany','Brit', 
+'Envejecimiento desacelerado,Invulnerabilidad,Fuerza aumentada,Agilidad y reflejos incrementados,','Carencia de poder ofensivo','Jessica (Esposa)
+Brit Jr. (Hijo)
+Britney (Medio hermana)',
+29,'1-100-124-2334','Su familia murió en un terrible accidente en el que resultó herido');
+
+
+--Green Ghost 6
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\greenghost.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Green Ghost', 
+'Control de la densidad,Vuelo, Invisibilidad','Vulnerabilidad','Ninguno',
+29,'1-100-123-1324','Miembro antiguo de los guardianes del globo');
+
+--Immortal 7
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\inmortal.jpg', SINGLE_BLOB) AS Imagen), 'No revelado','Immortal', 
+'Inmortalidad,Vuelo, duración sobrehumana, Fuerza sobrehumana, Supervelocidad','Limitada invulnerabilidad','Grace (Esposa, Fallecida),
+Kate Cha (Esposa),
+Mary and Abraham (hijos gemelos)',
+1000,'1-100-122-1334','Miembro antiguo de los guardianes del globo');
+
+--Darkwing 8
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\darkwing.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Darkwing', 
+'Maestro combate mano a mano','vulnerabilidad','ninguno',
+36,'1-313-001-7777','Miembro antiguo de los guardianes del globo');
+
+--Knockout 9
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\knockout.jpg', SINGLE_BLOB) AS Imagen), 'Sarah','Knockout', 
+'Fuerza sobrehumana,Resistencia sobrehumana,Agilidad Sobrehumana','Dependencia a sus guantes','Kid Thor (esposo),
+Knute (cuñado),
+Rolf (cuñado)',
+19,'1-312-006-5567','Recibió sus poderes por accidente');
+
+--Martian Man 10
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\martian.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Martian Man', 
+'Cambio de forma,Elasticidad,Agilidad Sobrehumana,Fuerza sobrehumana,Regeneración,Vuelo','Fuego','Ninguno',
+39,'1-345-044-5678','Viene del planeta Marte y es uno de los guardianes fundadores');
+
+--War Woman 11
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\warwoman.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','War Woman', 
+'Fuerza sobrehumana,Resistencia sobrehumana,Agilidad Sobrehumana,Supervelocidad','Limitada invulnerabilidad','Ninguno',
+30,'1-770-045-5477','Amazoniana, una de los guardianes fundadores');
+
+--Kaboomerang 12
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\kaboomerang.jpg', SINGLE_BLOB) AS Imagen), 'Daniel','Kaboomerang', 
+'Telekinesis,Superestamina','vulnerabilidad','ninguno',
+25,'1-301-046-7766','Miembro aborigen australiano de los Guardianes del Globo. Es un experto en el uso de bumeranes explosivos.');
+
+--Le Brusier 13
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\lebrusier.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Le Brusier', 
+'Intelecto superior,Olfato superagudo,Resistencia y Fuerza sobrehumana,Supervelocidad','Enfermedades, vulnerabilidad','Ninguno',
+7,'1-311-005-5566','Es un perro frances que recibió un hechizo de una bruja');
+
+--Rex Sloan 14
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\rexsloan.jpg', SINGLE_BLOB) AS Imagen), 'Rex Sloan','Rex Slope', 
+'Aceleración molecular,Fuerza sobrehumana,Resistencia sobrehumana','Materia organica','Rudolph Conners (clon)',
+45,'1-302-057-8877','Un cientifico, quien experimentó consigo mismo');
+
+--Shapesmith 15
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\shapesmith.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','ShapeSmith', 
+'Cambio de forma,Elasticidad,Agilidad Sobrehumana,Fuerza sobrehumana,Regeneración,Vuelo','fuego','ninguno',
+25,'1-311-011-1186','Shapesmith es un marciano que utiliza sus habilidades metamórficas para disfrazarse de astronauta Rus Livingston y luchar contra el crimen.');
+
+--Adolescentes 
+
+--Darkwing II
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\darkwingII.jpeg', SINGLE_BLOB) AS Imagen), 'Unknown','Darkwing II', 
+'Maestro combate mano a mano','vulnerabilidad','ninguno',
+16,'1-313-001-5544','Antiguo asistente de Darkwing, el cual ahora continua con su legado');
+
+--Kid thor
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\kidthor.jpg', SINGLE_BLOB) AS Imagen), 'Mason','Kid Thor', 
+'Fuerza sobrehumana,Resistencia sobrehumana,Agilidad Sobrehumana','Dependencia a su martillo','Knockout (esposa, fallecida);
+Thor Man (abuelo);
+Knute (hermano);
+Rolf (hermano)',
+17,'1-312-004-5564','Nieto de thor, heredero del trueno');
+
+--Monax 
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\monax.jpeg', SINGLE_BLOB) AS Imagen), 'Monax Zaxal','Monax', 
+'Transformación,Curación acelerada,Fuerza sobrehumana,Densidad de tejido sobrehumano','Envejecimiento invertido','Amanda (padre),
+Zall Zaxal (madre, fallecida),
+Zull Zaxal (tio)',
+16,'1-212-441-1134','Hijo de Amanda y Zall Zaxal');
+
+--Yeti
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\yeti.jpg', SINGLE_BLOB) AS Imagen), 'Yeti','Yeti', 
+'Garras,Agilidad Sobrehumana,Fuerza sobrehumana,Curación acelerada','Fuego','Ninguno',
+12,'1-333-009-5608','Yeti, un nuevo héroe de Nepal, fue reclutado por Brit para ser miembro de los Guardianes del Globo.');
+
+--Pegasus 
+
+INSERT INTO hero(img, hero_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\pegasus.jpg', SINGLE_BLOB) AS Imagen), 'Unknown','Pegasus', 
+'Vuelo,Visión sobrehumana','Vulnerabilidad','Ninguno',
+17,'1-313-055-1586','Es una chica rusa, a quien sometieron a experimentos');
+
+
+--villanos
+
+-- Conquest 1 
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\conquest.jpeg', SINGLE_BLOB) AS Imagen), 'Unknown','Conquest', 
+'fisiología viltrumita/humana,Fuerza sobrehumana,Velocidad sobrehumana,Resistencia sobrehumana,Vuelo','Oidos sensibles, Mal temperamento','Ninguno',
+1100,'1-341-154-2895','Conquest nació en Viltrum y fue uno de los pocos que sobrevivió.');
+
+--Universa 2 
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\universa.jpeg', SINGLE_BLOB) AS Imagen), 'Unknown','Universa', 
+'Manipulación de la energia','Dependencia de su bastón','Ninguno',
+700,'1-311-184-1872','ella nació en un planeta lejos del sistema estelar de la Tierra');
+
+--Thragg
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\thragg.jpeg', SINGLE_BLOB) AS Imagen), 'Thragg','Thragg', 
+'fisiología viltrumita/humana,Fuerza sobrehumana,Velocidad sobrehumana,Resistencia sobrehumana,Vuelo','Oidos sensibles, Mal temperamento','Ursaal (hija)
+Onaan (hijo, fallecido)',
+1000,'1-300-085-1781','Emperador de los viltrumitas');
+
+--King Lizard
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\kinglizard.jpeg', SINGLE_BLOB) AS Imagen),'King Lizard','Unknown', 
+'Reflejos potenciados,Fuerza sobrehumana,Regeneración','Fuego,Vulnerabilidad','Ninguno',
+1000,'1-300-085-1751','Rey de la liga de los lagartos');
+
+--Titan
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\titan.jpeg', SINGLE_BLOB) AS Imagen),'Titan', 'Unknown',
+'Fuerza sobrehumana,Velocidad sobrehumana,Piel resistente','Carencia de poder ofensivo','Ursaal (hija)
+Onaan (hijo, fallecido)',
+50,'1-333-035-1731','Un matón, parte de una organización criminal');
+
+--Thula
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\thragg.jpeg', SINGLE_BLOB) AS Imagen), 'Thula','Thula', 
+'fisiología viltrumita/humana,Fuerza sobrehumana,Velocidad sobrehumana,Resistencia sobrehumana,Vuelo','Oidos sensibles, Mal temperamento','Ninguno',
+1000,'1-300-085-1781','Guerrera viltrumita');
+
+--Iguana
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\iguana.jpg', SINGLE_BLOB) AS Imagen), 'Iguana','unknown', 
+'Piel resistente,Agilidad sobrehumana,Reflejos','Agua Bendita','Caporo(esposo)',
+21,'1-313-014-1181','Por un accidente en un laboratorio terminó así');
+
+--Salamander
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Users\Imagenes_GG\salamander.jpg', SINGLE_BLOB) AS Imagen), 'Salamander','Unknown', 
+'Secreta toxicinas venenosas','Vulnerabilidad','Ninguno',
+30,'1-311-035-3784','Emperador de los viltrumitas');
+
+--Supreme Leader Cho
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\thragg.jpeg', SINGLE_BLOB) AS Imagen), 'Super Leader Cho','Cho', 
+'Teletransportación,Fuerza sobrehumana,Velocidad sobrehumana,Resistencia sobrehumana,Vuelo','Longevidad,Mal temperamento','Padre (fallecido)',
+40,'Desconocido','Dictador de korea del norte');
+
+--The Face
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\thragg.jpeg', SINGLE_BLOB) AS Imagen),'The face', 'Jhon Randal',
+'Poder explosivo','Armas de oro','Ninguno',
+1000,'1-310-015-1872','Antiguo fiscal, ahora mafioso');
+
+--Squidmen 
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\squidmen.jpg', SINGLE_BLOB) AS Imagen),'Squidmen','Unknown', 
+'Fuerza sobrehumana,Resistencia sobrehumana,Capacidad pulmonar','Fuego, enfermedades','Ninguno',
+100,'1-322-185-1251','Guerrero más fuerte de su raza');
+
+--Slaying Mantis
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\slaying.jpeg', SINGLE_BLOB) AS Imagen),'Slaying Mantis','Unknown', 
+'Poder con la espada','Vulnerabilidad y dependencia a su arma','Ninguno',
+37,'1-300-085-1781','Emperador de los viltrumitas');
+
+--Furnace 
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\furnace.jpeg', SINGLE_BLOB) AS Imagen), 'Furnace','Unknown', 
+'Poder de plasma','Dependencia al traje que usa','Ninguno',
+1000,'Desconocido','Viene de una raza inteligente hecha de plasma');
+
+--Spore
+
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\spore.jpg', SINGLE_BLOB) AS Imagen), 'Spore','Unknown', 
+'Cambio de forma,Curación acelerada,Cambio de tamaño','Frio extremo','Ninguno',
+2000,'Desconocido','Un ente raro de la galaxia');
+
+--Elephant
+INSERT INTO villain(img, villain_name, real_name, powers, weaks, relations, age, cellphone, origin) VALUES((SELECT BulkColumn
+FROM OPENROWSET(BULK 'C:\Imagenes_GG\elephant.jpeg', SINGLE_BLOB) AS Imagen),'Elephant','Unknown', 
+'Fuerza sobrehumana,Resistencia sobrehumana','Vulnerabilidad','Ninguno',
+30,'1-322-005-0781','Adquirió sus poderes con una inyección');
+
+--Sponsors
+
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(1, 300000, 5, 'Empresa vendedora de refrescos');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(3,500000, 1, 'Empresa de tecnologias');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(4,100000, 2, 'Empresa fabricante de juguetes');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(5,400000, 4, 'Empresa fabricante de coches');
+insert into sponsor(sponsor_ID, amount, hero_ID, sourceOM) values(2,600000, 6, 'Empresa textil');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(2,300000, 7, 'Empresa textil');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(6,500000, 8, 'Empresa de entretenimiento');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(7,50000, 9, 'Empresa fabricante de moviles');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(8,100000, 10, 'Cocacola');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(9,200000, 11, 'Sony');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(10,100000, 12, 'Samsung');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(11,200000, 13, 'Mattel');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(12,100000, 15, 'Frisby');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(13,200000, 14, 'Mcdonnalds');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(14,600000, 16, 'Chevrolet');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(15,700000, 17, 'Totto');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(16,60000, 18, 'Gatorade');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(17,30000, 19, 'Huawei');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(18,350000, 20, 'Xiaomi');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(8,560000, 21, 'Cocacola');
+
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(14,600000, 7, 'Chevrolet');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(15,700000, 7, 'Totto');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(16,60000, 10, 'Gatorade');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(17,30000, 11, 'Huawei');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(18,350000, 9, 'Xiaomi');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(8,560000, 20, 'Cocacola');
+
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(19,300000, 2, 'Subway');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(20,2000000, 7, 'Microsoft');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(20,1000000, 10, 'Microsoft');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(21,900000, 8, 'Apple');
+
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(22,400000, 5, 'Intel');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(23,200000, 6, 'Hasbro');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(24,200000, 15, 'Velez');
+insert into sponsor( sponsor_ID, amount, hero_ID, sourceOM) values(25,800000, 16, 'Gucci');
+
+
+
+--Users 
+
+INSERT INTO users(username, pw, img) VALUES('ed','',null);
+INSERT INTO users(username, pw, img) VALUES('Admin','123',null);
+INSERT INTO users(username, pw, img) VALUES('invitado','0598',null);
+
+

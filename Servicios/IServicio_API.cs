@@ -30,10 +30,10 @@ namespace Reto_sophos2.Servicios
 
         Task<List<Hero>> GetHeroesByName(string name);
 
-        Task<List<Hero>> GetHeroes();
+        Task<List<Hero>?> GetHeroes();
 
         Task<List<Hero>> GetHeroesSortByAge();
-        Task<List<Villain>> GetVillains();
+        Task<List<Villain>?> GetVillains();
 
         Task<List<Villain>> GetVillainsByName(string name);
         Task<List<Villain>> GetVillainssByOrigin(string origin);
@@ -42,9 +42,9 @@ namespace Reto_sophos2.Servicios
 
         Task<List<Sponsor>> GetSponsors(string heroName);
 
-        Task<List<Fight>> GetFights();
+        Task<List<Fight>?> GetFights();
 
-        Task<Villain> GetMostFightedVillain(string heroName);
+        Task<Villain?> GetMostFightedVillain(string heroName);
         Task<List<Sponsor>> GetHighestSponsor(string heroName);
 
         Task<List<Task>> GetTasks(string heroName);

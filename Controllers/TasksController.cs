@@ -87,8 +87,7 @@ namespace Reto_sophos2.Controllers
         [HttpPost]
         public async Task<ActionResult<Task>> PostTask([FromBody]Task tasks)
         {
-            try
-            {
+           
                 if (_context.Tasks == null)
                 {
                     return Problem("Entity set 'AppDbContext.Tasks'  is null.");
@@ -110,11 +109,7 @@ namespace Reto_sophos2.Controllers
                     }
                 }
 
-            }
-            catch (Exception ex) { 
             
-            }
-                
             
             return CreatedAtAction("GetTask", new { id = tasks.TaskId }, tasks);
         }

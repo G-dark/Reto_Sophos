@@ -20,11 +20,11 @@ namespace Reto_sophos2.Servicios
 {
     public class Servicio_API : IServicio_API
     {
-        public string base_url = "https://localhost:7232";
+        public string base_url = "https://localhost:32768";
         public int numberOfFacings { get; set; }
         public int[] numberOfWs = new int[3];
         public decimal totalAmount = Decimal.Zero;
-        public async Task<List<Fight>> GetFights()
+        public async Task<List<Fight>?> GetFights()
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri(base_url);
@@ -32,9 +32,9 @@ namespace Reto_sophos2.Servicios
             HttpResponseMessage response = await client.GetAsync(strContent);
             string responseBody = await response.Content.ReadAsStringAsync();
             List<Fight>? fights = JsonConvert.DeserializeObject<List<Fight>>(responseBody);
-            List<Hero> heroes = await GetHeroes();
-            List<Villain> villains = await GetVillains();
-            if (fights != null && heroes != null)
+            List<Hero>? heroes = await GetHeroes();
+            List<Villain>? villains = await GetVillains();
+            if (fights != null && heroes != null && villains != null)
                 foreach (Fight fight in fights)
                 {
                     Predicate<Hero> Is = hero => hero.HeroId == fight.HeroId;
@@ -46,7 +46,7 @@ namespace Reto_sophos2.Servicios
             return fights;
         }
 
-        public async Task<List<Hero>> GetHeroes()
+        public async Task<List<Hero>?> GetHeroes()
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri(base_url);
@@ -119,33 +119,38 @@ namespace Reto_sophos2.Servicios
         public async Task<List<Hero>> GetHeroesSortByAge()
         {
 
-            List<Hero> heroes = await GetHeroes();
+            List<Hero>? heroes = await GetHeroes();
             List<int?> edades = new List<int?>();
             List<int?> edades2 = new List<int?>();
             List<Hero> heroesR = new List<Hero>();
-            foreach (var hero in heroes)
-            {
-                edades.Add(hero.Age);
-                edades2.Add(hero.Age);
-            }
 
-            edades.Sort();
-            edades.Reverse();
+            if (heroes != null) {
 
-            foreach (var age in edades)
-            {
-                var posi = edades2.IndexOf(age);
-
-                var heroe = heroes.ElementAt(posi);
-
-
-                if (!heroesR.Contains(heroe))
+                foreach (var hero in heroes)
                 {
-                    heroesR.Add(heroes.ElementAt(posi));
-                    edades2[posi] = 0;
+                    edades.Add(hero.Age);
+                    edades2.Add(hero.Age);
                 }
 
+                edades.Sort();
+                edades.Reverse();
+
+                foreach (var age in edades)
+                {
+                    var posi = edades2.IndexOf(age);
+
+                    var heroe = heroes.ElementAt(posi);
+
+
+                    if (!heroesR.Contains(heroe))
+                    {
+                        heroesR.Add(heroes.ElementAt(posi));
+                        edades2[posi] = 0;
+                    }
+
+                }
             }
+            
 
             return heroesR;
 
@@ -155,12 +160,12 @@ namespace Reto_sophos2.Servicios
         {
             List<Sponsor> sponsors = await GetSponsors(heroName);
             List<Sponsor> sponsorsU = sponsors.Distinct().ToList();
-            List<Hero> heroes = await GetHeroes();
+            List<Hero>? heroes = await GetHeroes();
             List<int?> sponsorIds = new List<int?>();
             List<Decimal?> montos = new List<Decimal?>();
             List<Decimal?> montos2 = new List<Decimal?>();
             List<Sponsor> sponsors2 = new List<Sponsor>();
-            if (heroes != null)
+            if (heroes != null && sponsors != null)
             {
                 Predicate<Hero> Is = hero => hero.HeroName == heroName;
                 Hero? hero = heroes.Find(Is);
@@ -198,7 +203,7 @@ namespace Reto_sophos2.Servicios
 
                     Sponsor? sponsor = sponsors.Find(sponsor => sponsor.SponsorId == id);
 
-                    sponsors2.Add(sponsor);
+                    if (sponsor != null) sponsors2.Add(sponsor);
                 }
 
             }
@@ -213,63 +218,72 @@ namespace Reto_sophos2.Servicios
             return totalAmount;
         }
 
-        public async Task<Villain> GetMostFightedVillain(string heroName)
+        public async Task<Villain?> GetMostFightedVillain(string heroName)
         {
-            List<Fight> fights = await GetFights();
-            List<Hero> heroes = await GetHeroes();
-            List<Villain> villains = await GetVillains();
+            List<Fight>? fights = await GetFights();
+            List<Hero>? heroes = await GetHeroes();
+            List<Villain>? villains = await GetVillains();
             int foundIDV = 0;
             List<int?> fightsBH = new List<int?>();
 
             Predicate<Hero> Is = hero => hero.HeroName == heroName;
-            Villain villain = new Villain();
+           
+            Villain? villain=null;
             List<Fight> tfights = new List<Fight>();
 
-            if (heroes != null)
+            if (heroes != null && fights != null && villains != null)
             {
 
                 Hero? heroS = heroes.Find(Is);
 
+
                 if (heroS != null)
                 {
+                    Predicate<Fight> Iss = fight => fight.HeroId == heroS.HeroId;
 
-                    foreach (Fight fight in fights)
-                    {
-                        if (fight.HeroId.Equals(heroS.HeroId))
+                    var fightsin = fights.FindAll(Iss);
+
+                    if (fightsin != null && fightsin.Count > 0) {
+
+                        villain = new Villain();
+
+                        foreach (Fight fight in fightsin)
                         {
-                            fightsBH.Add(fight.VillainId);
-                            tfights.Add(fight);
-                        }
-                    }
-
-                    var NFights = fightsBH.Distinct();
-                    List<int> counts = new List<int>();
-
-                    foreach (var item in NFights)
-                    {
-                        List<Fight> fs = new List<Fight>();
-                        foreach (var item2 in tfights)
-                        {
-                            if (item == item2.VillainId)
+                            if (fight.HeroId.Equals(heroS.HeroId))
                             {
-
-                                fs.Add(item2);
+                                fightsBH.Add(fight.VillainId);
+                                tfights.Add(fight);
                             }
                         }
 
-                        counts.Add(fs.Count());
-                    }
+                        var NFights = fightsBH.Distinct();
+                        List<int> counts = new List<int>();
 
-                    var max = counts.Max();
-                    int posi = counts.IndexOf(max);
+                        foreach (var item in NFights)
+                        {
+                            List<Fight> fs = new List<Fight>();
+                            foreach (var item2 in tfights)
+                            {
+                                if (item == item2.VillainId)
+                                {
 
-                    if (NFights.ElementAt(posi) != null)
-                    {
+                                    fs.Add(item2);
+                                }
+                            }
+
+                            counts.Add(fs.Count());
+                        }
+
+                        var max = counts.Max();
+                        int posi = counts.IndexOf(max);
+
                         foundIDV = (int)NFights.ElementAt(posi);
 
                         Predicate<Villain> Is2 = villain => villain.VillainId == foundIDV;
                         numberOfFacings = max;
                         villain = villains.Find(Is2);
+
+
                     }
 
 
@@ -286,69 +300,75 @@ namespace Reto_sophos2.Servicios
 
         public async Task<List<Hero>> GetTopHeroes()
         {
-            List<Fight> fights = await GetFights();
-            List<Hero> heroes = await GetHeroes();
+            List<Fight>? fights = await GetFights();
+            List<Hero>? heroes = await GetHeroes();
             List<int?> heroesID = new List<int?>();
             List<Hero> heroesin = new List<Hero>();
-
-            foreach (Fight fight in fights)
-                heroesID.Add(fight.HeroId);
-
-            var HeroesU = heroesID.Distinct();
-
-            int tmp;
-
-            var count = new List<int>();
-            var count2 = new List<int>();
-
-            if (heroes != null)
-                foreach (var v in HeroesU)
-                {
-                    tmp = 0;
-                    foreach (var v2 in fights)
-                    {
-
-                        Predicate<Hero> Is = hero => hero.HeroId == v2.HeroId;
-                        Hero? hero = heroes.Find(Is);
-
-                        if (v2.HeroId == v && v2.Result == 0 && hero != null) { tmp++; if (!heroesin.Contains(hero)) heroesin.Add(hero); }
-                    }
-
-                    count.Add(tmp);
-                    count2.Add(tmp);
-                }
-            count2.RemoveAll(h => h == 0);
-            count.RemoveAll(h => h == 0);
-
-
-
-            count.Sort();
-
-            count.Reverse();
-
-            Hero[] htop3 = new Hero[3];
-
-            for (int i = 0; i < 3; ++i)
-            {
-                var element = count.ElementAt(i);
-                numberOfWs[i] = element;
-                var posi = count2.IndexOf(element);
-
-                var heroe = heroesin.ElementAt(posi);
-
-
-                if (!htop3.Contains(heroe))
-                {
-                    htop3[i] = (heroesin.ElementAt(posi));
-                    count2[posi] = 0;
-                }
-
-            }
-
-
             List<Hero> result = new List<Hero>();
 
-            for (int i = 0; i < 3; ++i) result.Add(htop3[i]);
+            if (heroes != null && fights != null)
+            {
+                foreach (Fight fight in fights)
+                    heroesID.Add(fight.HeroId);
+
+                var HeroesU = heroesID.Distinct();
+
+                int tmp;
+
+                var count = new List<int>();
+                var count2 = new List<int>();
+
+                if (heroes != null)
+                    foreach (var v in HeroesU)
+                    {
+                        tmp = 0;
+                        foreach (var v2 in fights)
+                        {
+
+                            Predicate<Hero> Is = hero => hero.HeroId == v2.HeroId;
+                            Hero? hero = heroes.Find(Is);
+
+                            if (v2.HeroId == v && v2.Result == 0 && hero != null) { tmp++; if (!heroesin.Contains(hero)) heroesin.Add(hero); }
+                        }
+
+                        count.Add(tmp);
+                        count2.Add(tmp);
+                    }
+                count2.RemoveAll(h => h == 0);
+                count.RemoveAll(h => h == 0);
+
+
+
+                count.Sort();
+
+                count.Reverse();
+
+                Hero[] htop3 = new Hero[3];
+
+                for (int i = 0; i < 3; ++i)
+                {
+                    var element = count.ElementAt(i);
+                    numberOfWs[i] = element;
+                    var posi = count2.IndexOf(element);
+
+                    var heroe = heroesin.ElementAt(posi);
+
+
+                    if (!htop3.Contains(heroe))
+                    {
+                        htop3[i] = (heroesin.ElementAt(posi));
+                        count2[posi] = 0;
+                    }
+
+                }
+
+
+               
+
+                for (int i = 0; i < 3; ++i) result.Add(htop3[i]);
+
+            }
+          
 
 
             return result;
@@ -429,51 +449,54 @@ namespace Reto_sophos2.Servicios
 
         public async Task<Villain> GetVillainL()
         {
-            List<Villain> villains = await GetVillains();
-            List<Fight> fights = await GetFights();
+            List<Villain>? villains = await GetVillains();
+            List<Fight>? fights = await GetFights();
             List<int?> villainsID = new List<int?>();
+            Villain? villain = null;
+            List<Hero>? heroes = await GetHeroes();
 
-            List<Hero> heroes = await GetHeroes();
+            if (villains != null && heroes != null && fights != null) {
+                foreach (Fight fight in fights)
+                    villainsID.Add(fight.VillainId);
 
-            foreach (Fight fight in fights)
-                villainsID.Add(fight.VillainId);
+                var villainsU = villainsID.Distinct();
 
-            var villainsU = villainsID.Distinct();
+                int tmp;
 
-            int tmp;
+                var count = new List<int>();
 
-            var count = new List<int>();
-
-            foreach (var v in villainsU)
-            {
-                tmp = 0;
-                foreach (var v2 in fights)
+                foreach (var v in villainsU)
                 {
+                    tmp = 0;
+                    foreach (var v2 in fights)
+                    {
 
-                    Predicate<Hero> Is = hero => hero.HeroId == v2.HeroId && hero.Age < 18;
-                    Hero? hero = heroes.Find(Is);
-                    if (v2.VillainId == v && v2.Result == 0 && hero != null) tmp++;
+                        Predicate<Hero> Is = hero => hero.HeroId == v2.HeroId && hero.Age < 18;
+                        Hero? hero = heroes.Find(Is);
+                        if (v2.VillainId == v && v2.Result == 0 && hero != null) tmp++;
+                    }
+
+                    count.Add(tmp);
                 }
 
-                count.Add(tmp);
+                var alt = count.IndexOf(count.Max());
+                var altV = villainsU.ElementAt(alt);
+
+                numberOfFacings = count.Max();
+
+                
+
+                Predicate<Villain> Is2 = villain => villain.VillainId == altV;
+                villain = villains.Find(Is2);
             }
 
-            var alt = count.IndexOf(count.Max());
-            var altV = villainsU.ElementAt(alt);
-
-            numberOfFacings = count.Max();
-
-            Villain villain = new Villain();
-
-            Predicate<Villain> Is2 = villain => villain.VillainId == altV;
-            villain = villains.Find(Is2);
+           
 
             return villain;
 
         }
 
-
-        public async Task<List<Villain>> GetVillains()
+        public async Task<List<Villain>?> GetVillains()
         {
             var client = new HttpClient();
             client.BaseAddress = new Uri(base_url);
@@ -567,39 +590,49 @@ namespace Reto_sophos2.Servicios
 
         public async Task<bool> CreateFight(int result, string heroName, string villainName, string comments)
         {
-            List<Hero> heroes = await GetHeroes();
-            List<Villain> villains = await GetVillains();
+            List<Hero>? heroes = await GetHeroes();
+            List<Villain>? villains = await GetVillains();
             Predicate<Hero> Is = hero => hero.HeroName == heroName;
             Predicate<Villain> Is2 = villain => villain.VillainName == villainName;
 
-            Hero? hero = heroes.Find(Is);
-            Villain? villain = villains.Find(Is2);
-
-
-            if (villain != null && hero != null)
+            if (heroes != null && villains != null)
             {
+                Hero? hero = heroes.Find(Is);
+                Villain? villain = villains.Find(Is2);
 
-                var client = new HttpClient();
-                client.BaseAddress = new Uri(base_url);
-                var strContent = "api/Fights";
-        
 
-                var response2 = new Fight()
+                if (villain != null && hero != null)
                 {
-                    Result = result,
-                    HeroId = hero.HeroId,
-                    VillainId = villain.VillainId,
-                    Comments = comments
-                };
-                HttpResponseMessage response = await client.PostAsJsonAsync(strContent, response2);
 
-                return response.IsSuccessStatusCode;
+                    var client = new HttpClient();
+                    client.BaseAddress = new Uri(base_url);
+                    var strContent = "api/Fights";
+
+
+                    var response2 = new Fight()
+                    {
+                        Result = result,
+                        HeroId = hero.HeroId,
+                        VillainId = villain.VillainId,
+                        Comments = comments
+                    };
+                    HttpResponseMessage response = await client.PostAsJsonAsync(strContent, response2);
+
+                    return response.IsSuccessStatusCode;
+
+                }
+                else
+                {
+                    return false;
+                }
 
             }
-            else
-            {
+            else {
+
                 return false;
+            
             }
+           
 
 
 
@@ -609,7 +642,8 @@ namespace Reto_sophos2.Servicios
         {
             var heroes = await GetHeroes();
             Predicate<Hero> Is = h => h.HeroName == heroName;
-            Hero hero = new Hero();
+            Hero? hero = new Hero();
+
             if (heroes != null) { hero = heroes.Find(Is); }
                 
 
@@ -654,7 +688,7 @@ namespace Reto_sophos2.Servicios
         {
             var villains = await GetVillains();
             Predicate<Villain> Is = v => v.VillainName == villainName;
-            Villain villain = new Villain();
+            Villain? villain = new Villain();
             if (villains != null) { villain = villains.Find(Is); }
 
 
@@ -696,12 +730,12 @@ namespace Reto_sophos2.Servicios
         }
         public async Task<bool> CreateSponsorT(string heroName, int sponsor, Decimal amount, string source)
         {
-            List<Hero> heroes = await GetHeroes();
+            List<Hero>? heroes = await GetHeroes();
            
             Predicate<Hero> Is = hero => hero.HeroName == heroName;
-           
 
-            Hero? hero = heroes.Find(Is);
+            Hero? hero = null;
+            if (heroes != null) { hero = heroes.Find(Is); } 
           
 
 
@@ -747,7 +781,7 @@ namespace Reto_sophos2.Servicios
             List<Task>? tasks = JsonConvert.DeserializeObject<List<Task>>(responseBody);
 
             Predicate<Hero> Is = h => h.HeroName == heroName;
-            Hero hero = new Hero();
+            Hero? hero = new Hero();
 
             if (heroes != null) { hero = heroes.Find(Is); }
 

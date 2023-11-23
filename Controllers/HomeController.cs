@@ -8,6 +8,7 @@ using System.IO;
 using Task = Reto_sophos2.Models.Task;
 using Microsoft.Extensions.FileSystemGlobbing.Internal;
 using System.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace Reto_sophos2.Controllers
 {
@@ -23,11 +24,6 @@ namespace Reto_sophos2.Controllers
         
         }
    
-        public IActionResult Index()
-        {
-            return View();
-        }
-
         //[Route("home")]
         public IActionResult MiVista()
         {
@@ -48,11 +44,12 @@ namespace Reto_sophos2.Controllers
 
         public async Task<IActionResult> SearchVillains()
         {
-            List<Villain> VillainR = new List<Villain>();
+            List<Villain>? VillainR = new List<Villain>();
             string? pattern = HttpContext.Request.Form["pattern"];
             string? opcion = HttpContext.Request.Form["Dropdown1"];
 
-            
+            if (pattern != null && opcion != null) {
+
                 switch (opcion)
                 {
 
@@ -76,6 +73,8 @@ namespace Reto_sophos2.Controllers
 
 
                 }
+            }
+                
             return View(VillainR);
 
         }
@@ -96,8 +95,13 @@ namespace Reto_sophos2.Controllers
         [HttpPost]
         public async Task<IActionResult> AgendaWeek()
         {
+
+            List<Task>? tasks = null;
             string? heroName = HttpContext.Request.Form["heroname"];
-            List<Task> tasks = await servicioAPI.GetTasks(heroName);
+            if (heroName != null) {
+                tasks = await servicioAPI.GetTasks(heroName);
+            }
+          
             ViewBag.respuesta = null;
             return View(tasks);
         }
@@ -133,13 +137,13 @@ namespace Reto_sophos2.Controllers
 
         public async Task <IActionResult> Peleas()
         {
-            List<Fight> fights = await servicioAPI.GetFights();
+            List<Fight>? fights = await servicioAPI.GetFights();
             return View(fights);
         }
         public async Task<IActionResult> PeleasG()
         {
             List<Hero> heroesR = new List<Hero>();
-            Villain villain = new Villain();
+            Villain? villain = new Villain();
             string? pattern = HttpContext.Request.Form["heroname"];
             string? opcion = HttpContext.Request.Form["Dropdown1"];
 
@@ -149,33 +153,40 @@ namespace Reto_sophos2.Controllers
 
                 case "Villano":
                     villain = await servicioAPI.GetMostFightedVillain(pattern);
-                    ViewBag.Nombre = villain.VillainName;
-                    ViewBag.RN = villain.RealName;
-                    ViewBag.Poderes = villain.Powers;
-                    ViewBag.Debilidades = villain.Weaks;
-                    ViewBag.Age = villain.Age;
-                    ViewBag.img = villain.Img;
-                    ViewBag.cantbat = servicioAPI.GetNumberofFacings();
 
+                        if (villain != null) {
+
+                            ViewBag.Nombre = villain.VillainName;
+                            ViewBag.RN = villain.RealName;
+                            ViewBag.Poderes = villain.Powers;
+                            ViewBag.Debilidades = villain.Weaks;
+                            ViewBag.Age = villain.Age;
+                            ViewBag.img = villain.Img;
+                            ViewBag.cantbat = servicioAPI.GetNumberofFacings();
+
+                        }
 
                     return View(null);
 
                 case "VillanoL":
                     villain = await servicioAPI.GetVillainL();
-                    ViewBag.Nombre = villain.VillainName;
-                    ViewBag.RN = villain.RealName;
-                    ViewBag.Poderes = villain.Powers;
-                    ViewBag.Debilidades = villain.Weaks;
-                    ViewBag.Age = villain.Age;
-                    ViewBag.img = villain.Img;
-                    ViewBag.cantbat = servicioAPI.GetNumberofFacings();
+
+                        if (villain != null) { 
+                            ViewBag.Nombre = villain.VillainName;
+                            ViewBag.RN = villain.RealName;
+                            ViewBag.Poderes = villain.Powers;
+                            ViewBag.Debilidades = villain.Weaks;
+                            ViewBag.Age = villain.Age;
+                            ViewBag.img = villain.Img;
+                            ViewBag.cantbat = servicioAPI.GetNumberofFacings();
+                        }
+
                     return View(null);
 
                 case "Heroes":
                     heroesR = await servicioAPI.GetTopHeroes();
                     ViewBag.ws = servicioAPI.GetNumberOfWs();
                     return View(heroesR);
-                    
             }
             return View();
         }
@@ -186,35 +197,39 @@ namespace Reto_sophos2.Controllers
             string? username = HttpContext.Request.Form["username"];
             string? password = HttpContext.Request.Form["password"];
 
-            if (username != "" && password != "")
-            {
+            if (username != null && password != null) {
 
-                if (await servicioAPI.login(username, password))
+                if (username != "" && password != "")
                 {
-                    return View("Living");
 
+                    if (await servicioAPI.login(username, password))
+                    {
+                        return View("Living");
+
+                    }
+                    else
+                    {
+                        return View("Error");
+                    }
                 }
                 else
                 {
-
                     return View("Error");
                 }
-            }
-            else {
 
+            }
+            else
+            {
                 return View("Error");
-
             }
 
-         
-            
-            
+
         }
 
         [HttpPost]
         public async Task<IActionResult> SearchHeroes()
         {
-            List<Hero> heroesR = new List<Hero>();
+            List<Hero>? heroesR = new List<Hero>();
             string? pattern = HttpContext.Request.Form["pattern"];
             string? opcion = HttpContext.Request.Form["Dropdown1"];
             ViewBag.respuesta = null;
@@ -331,8 +346,14 @@ namespace Reto_sophos2.Controllers
                 powers != null && weaks != null && relations != null
                 && age != null && cell != null && origin != null)
             {
-                response = await servicioAPI.CreateHeroe(imagen, heroName, realName, powers,
-                weaks, relations, origin, int.Parse(age), cell);
+                try
+                {
+                 int intage = int.Parse(age);
+                 if (intage >= 7) response = await servicioAPI.CreateHeroe(imagen, heroName, realName, powers,
+                weaks, relations, origin, intage, cell);
+                }
+                catch (Exception) { }
+               
                 ViewBag.respuesta = response;
                 return View("CrearP");
             }
@@ -365,7 +386,7 @@ namespace Reto_sophos2.Controllers
                     ViewBag.respuesta = response;
                     return View("CrearP");
 
-                } catch (Exception ex)
+                } catch (Exception)
                 {
                     response = false;
                 }
@@ -401,8 +422,13 @@ namespace Reto_sophos2.Controllers
                 powers != null && weaks != null && relations != null
                 && age != null && cell != null && origin != null)
             {
-                response = await servicioAPI.CreateVillain(imagen, villainName, realName, powers,
-                weaks, relations, origin, int.Parse(age), cell);
+                try {
+                    int intage = int.Parse(age);
+
+                    if(intage >= 7) response = await servicioAPI.CreateVillain(imagen, villainName, realName, powers,
+                    weaks, relations, origin, intage, cell);
+                } catch (Exception) { }
+                
                 ViewBag.respuesta = response;
                 return View("VillainsCrear");
             }
@@ -448,19 +474,25 @@ namespace Reto_sophos2.Controllers
             string? status = HttpContext.Request.Form["status"];
             string? taskid_ = HttpContext.Request.Form["taskid"];
 
-            int taskid = int.Parse(taskid_);
-            int? intstatus = status.Equals("") ? null : int.Parse(status);
+            
 
-            if (heroName != null && fechaS != null && fechaF != null && tname != null )
+            if (heroName != null && fechaS != null && fechaF != null && tname != null && taskid_ != null && status != null)
             {
+                int taskid = int.Parse(taskid_);
+                int? intstatus;
+                try
+                {
+                    intstatus = status.Equals("") ? null : int.Parse(status);
+                }
+                catch (Exception) { intstatus = null; }
                 var fechasSdate = fechaS.Equals("") ? DateTime.MinValue: DateTime.Parse(fechaS);
                 var fechasFdate = fechaF.Equals("") ? DateTime.MinValue: DateTime.Parse(fechaF);
-                
+
+           
                 response = await servicioAPI.EditTask(heroName, tname, fechasSdate, fechasFdate, taskid, intstatus, usernameOn);
+                
                 ViewBag.respuesta = response;
                 return View("AgendaWeek");
-
-
 
             }
 
@@ -483,13 +515,19 @@ namespace Reto_sophos2.Controllers
             string? cell = HttpContext.Request.Form["phone"];
             string? origin = HttpContext.Request.Form["origin"];
 
-            int ageint = age.Equals("") ? -1 : int.Parse(age);
+            
 
-            if ( heroName != null )
+            if ( heroName != null && realName != null && powers != null 
+                && weaks != null && relations != null && origin != null 
+                && cell != null && age != null)
             {
-                response = await servicioAPI.EditHeroe(imagen, heroName, realName, powers,
+                int ageint = age.Equals("") ? -1 : int.Parse(age);
+
+                if(ageint>=7) response = await servicioAPI.EditHeroe(imagen, heroName, realName, powers,
                 weaks, relations, origin, ageint, cell);
+
                 ViewBag.respuesta = response;
+
                 return View("SearchHeroes");
             }
 
@@ -511,12 +549,17 @@ namespace Reto_sophos2.Controllers
             string? cell = HttpContext.Request.Form["phone"];
             string? origin = HttpContext.Request.Form["origin"];
 
-            int ageint = age.Equals("") ? -1 : int.Parse(age);
+           
 
-            if (heroName != null)
+            if (heroName != null && realName != null && powers != null
+                && weaks != null && relations != null && origin != null
+                && cell != null && age != null)
             {
+                int ageint = age.Equals("") ? -1 : int.Parse(age);
+
                 response = await servicioAPI.EditVillain(imagen, heroName, realName, powers,
                 weaks, relations, origin, ageint, cell);
+               
                 ViewBag.respuesta = response;
                 return View("SearchVillains");
             }
