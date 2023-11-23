@@ -8,7 +8,7 @@ This project was develoved for the course Sophos a VIP course of universidad del
 # Configuration 
 1. Open the creation and poblation scripts files, copy and paste inside of a management database program for sql server.
 2. Once created and poblated you must change the user and password for yours in the following configuration line:
-          Data Source=ELI\\SQLEXPRESS;Initial Catalog=MiBaseDeDatos; User ID=sa;Password=1234567; Encrypt=False"
+          ###Data Source=ELI\\SQLEXPRESS;Initial Catalog=MiBaseDeDatos; User ID=sa;Password=1234567; Encrypt=False"
    You have to change this in two places in the appsettings.json file and appdbcontext class
 # Execution 
 1. Run the app in the Reto_sophos2_ profile
