@@ -1,7 +1,7 @@
 # Reto_Sophos
  A CRUD alike project
 This project was develoved for the course Sophos a VIP course of universidad del norte, and it was made using the net core platform what uses c# programing language. 
-# Instalation 
+# Installation 
 1. Make sure you have visual studio 2022 for community installed and if not you have to do it.
 2. Make git clone or download the source code from this page.
 3. Download sqlserver database engine, this is for using the creation and poblation scripts
